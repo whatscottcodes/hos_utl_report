@@ -1,0 +1,5 @@
+name: hospital_trends
+dependencies:
+- python=3
+- numpy
+- pandas
