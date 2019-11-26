@@ -130,9 +130,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--params",
-        default=None,
-        help="Data range as a tuple, ie ('YYYY-MM-DD', 'YYYY-MM-DD')",
+        "--params", default=None, help="Data range as a tuple, YYYY-MM-DD, YYYY-MM-DD"
     )
 
     arguments = parser.parse_args()
