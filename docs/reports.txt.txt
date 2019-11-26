@@ -1,9 +1,0 @@
-Required Reports, Where to Get Them & How to Name Them for hospital_trends.py.
-
-All reports can be found in Cognify PACELogic under the reporting tab.
-
-CSV Name|Where in Cognify|Parameters|Why
-
-inpatient.csv|Encounter > inpatient|Start Date: 01/01/2001, End Date: Current Date| Number of stays, days, long stays, avg LOS
-
-
