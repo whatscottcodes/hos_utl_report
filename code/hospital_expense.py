@@ -7,26 +7,15 @@ from paceutils import Participant, Utilization
 db_filepath = "V:\\Databases\\PaceDashboard.db"
 
 
-def long_stays_expense(params):
-    utl = Utilization(db_filepath)
-    df = utl.los_over_x_df(params, 7, "psych")[
-        ["member_id", "admission_date", "discharge_date", "facility", "los"]
-    ]
-    df["discharge_date"] = pd.to_datetime(df["discharge_date"])
-    df["admission_date"] = pd.to_datetime(df["admission_date"])
-
-    fom = pd.to_datetime(params[0])
-
-    df["days_in_prev_month"] = fom - df["admission_date"]
-    df["days_in_current_month"] = df["discharge_date"] - fom
-
-
 def hospital_trend_report(params, month_abr):
     utl = Utilization(db_filepath)
+
     total_admissions = utl.admissions_count(params, "acute") + utl.admissions_count(
         params, "psych"
     )
-    uniques = utl.unique_admissions_count(params, "acute")
+    uniques = utl.unique_admissions_count(
+        params, "acute"
+    ) + utl.unique_admissions_count(params, "psych")
 
     num_days = utl.utilization_days(params, "acute") + utl.utilization_days(
         params, "psych"
@@ -38,12 +27,8 @@ def hospital_trend_report(params, month_abr):
 
     alos = round(num_days / total_admissions, 2)
 
-    long_stays_acute = utl.los_over_x_df(params, 7, "acute")[
-        ["member_id", "admission_date", "discharge_date", "facility", "los"]
-    ]
-    long_stays_psych = utl.los_over_x_df(params, 7, "psych")[
-        ["member_id", "admission_date", "discharge_date", "facility", "los"]
-    ]
+    long_stays_acute = utl.days_over_x_df(params, 7, "acute")
+    long_stays_psych = utl.days_over_x_df(params, 7, "psych")
 
     total_long_stays = long_stays_acute.shape[0] + long_stays_psych.shape[0]
 
@@ -87,7 +72,7 @@ def update_long_stays(df, month_name):
 
     df.rename(
         columns={
-            "los": "Days",
+            "days": "Days",
             "facility": "Hospital",
             "psych_stay": "Psych. stay Y=Yes",
             "stays_last_6": "Number of hospital stays, including psych. stays, during the 6 months preceding the stay OR since enrollment if enrolled < 6 months when hospitalized",
@@ -130,7 +115,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--params", default=None, help="Data range as a tuple, YYYY-MM-DD, YYYY-MM-DD"
+        "--params",
+        default=None,
+        help="Data range as a tuple, YYYY-MM-DD,YYYY-MM-DD - no space between comma and numbers.",
     )
 
     arguments = parser.parse_args()
