@@ -1,3 +1,2 @@
 numpy==1.16.5
-paceutils.egg==info
 pandas==0.25.1

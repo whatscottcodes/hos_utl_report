@@ -3,7 +3,7 @@ Script for creating two csv files that can be used to update information in a ri
 
 ## Requirements
 
-All required packages are in the requirements.txt file. There is also an included environment.yml file for setting up a conda environment.
+All required packages are in the requirements.txt file. There is also an included environment.yml file for setting up a conda environment. Requires paceutils package to be installed in environment - use pip install e <local_path/to/pace_utils>
 
 ### PaceUtils
 
